@@ -30,7 +30,47 @@
             <h1>Online currency converter</h1>
             <div class="container">
                 <div class="container__left">
-                    
+                    <p class="box-title">My currency</p>
+                    <div class="buttons">
+                        <button class="left-btn">RUB</button>
+                        <button class="left-btn">USD</button>
+                        <button class="left-btn">EUR</button>
+                        <button class="left-btn">GBP</button>
+                    </div>
+
+                    <div class="container__left--curr">
+                        <input min="0" type="number" id="my-currency">
+
+
+                        <div id="one-curr__left">
+                            <span>1</span>
+                            <p>RUB</p>
+                            <span>=</span>
+                            <span>0.00</span>
+                            <p>USD</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container__right">
+                    <p class="box-title">The currency I want to convert</p>
+                    <div class="buttons">
+                        <button class="right-btn">RUB</button>
+                        <button class="right-btn">USD</button>
+                        <button class="right-btn">EUR</button>
+                        <button class="right-btn">GBP</button>
+                    </div>
+                    <div class="container__right--curr">
+                        <input min="0" type="number" id="converted-currency">
+
+                        <div id="one-curr__right">
+                            <span>1</span>
+                            <p>RUB</p>
+                            <span>=</span>
+                            <span>0.00</span>
+                            <p>USD</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 

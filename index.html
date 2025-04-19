@@ -4,12 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="./styles.css">
     <title>Currency Converter</title>
 </head>
 
 <body>
     <header>
+        <div id="burger-menu" >
+            <i class="fa-solid fa-bars"></i>
+        </div>
         <div id="logo"><img src="Frame.svg" /></div>
         <nav>
             <ul>
@@ -32,7 +37,7 @@
                 <div class="container__left">
                     <p class="box-title">My currency</p>
                     <div class="buttons">
-                        <button class="left-btn">RUB</button>
+                        <button class="left-btn active">RUB</button>
                         <button class="left-btn">USD</button>
                         <button class="left-btn">EUR</button>
                         <button class="left-btn">GBP</button>
@@ -56,7 +61,7 @@
                     <p class="box-title">The currency I want to convert</p>
                     <div class="buttons">
                         <button class="right-btn">RUB</button>
-                        <button class="right-btn">USD</button>
+                        <button class="right-btn active">USD</button>
                         <button class="right-btn">EUR</button>
                         <button class="right-btn">GBP</button>
                     </div>
@@ -76,7 +81,8 @@
 
         </section>
     </main>
-
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="./app.js"></script>
 </body>
 
 </html>

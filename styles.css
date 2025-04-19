@@ -16,6 +16,7 @@ header{
     justify-content: space-between;
     align-items: center;
     padding: 1rem 6rem;
+    z-index: 999;
 }
 
 nav ul{
@@ -61,8 +62,9 @@ h1{
 }
 .container{
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: center;
+    align-items: center; 
+    gap: 2rem;
 }
 
 .box-title{
@@ -120,4 +122,47 @@ input{
 .active{
     background-color: #833AE0 !important;
     color: white !important;
+}
+
+#burger-menu{
+    display: none
+}
+
+@media (max-width: 991px) {
+    h1{
+        text-align: center;
+    }
+#burger-menu{
+    display: block;
+}
+    
+    nav ul{
+        background-color: #833AE0;
+        flex-direction: column;
+        position: absolute;
+        left: 0;
+        height: 100%;
+        width: 30%;
+        z-index: 3;
+        top: 3rem;
+        padding: 10px;
+       gap: 3rem;
+    }
+
+    .container{
+        flex-direction: column;
+        gap: 4rem;
+    }
+}
+
+@media (max-width:600px){
+h1{
+    font-size: 25px;
+}
+header{
+   padding: 7px 10px;
+}
+    #main{
+        padding:2rem 5%;
+    }
 }

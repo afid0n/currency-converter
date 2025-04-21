@@ -7,35 +7,44 @@ const currencyButtonsTo = document.querySelectorAll('.right-btn');
 let selectedFromCurrency = 'RUB';
 let selectedToCurrency = 'USD';
 let activeField = null;
+let activeConversionRate = 0;
+
+const calculation = (rate) => {
+  if (activeField === 'from') {
+    inputTo.value = inputFrom.value
+      ? (parseFloat(inputFrom.value) * rate).toFixed(5)
+      : '';
+  } else {
+    inputFrom.value = inputTo.value
+      ? (parseFloat(inputTo.value) * rate).toFixed(5)
+      : '';
+  }
+}
 
 const fetchAndConvert = () => {
   const from = activeField === 'from' ? selectedFromCurrency : selectedToCurrency;
   const to = activeField === 'from' ? selectedToCurrency : selectedFromCurrency;
 
-  fetch(`https://v6.exchangerate-api.com/v6/a03495cb7aef8936ab109a1a/pair/${from}/${to}`)
-    .then(res => res.json())
-    .then(data => {
-      const rate = data.conversion_rate;
-
-      if (activeField === 'from') {
-        inputTo.value = inputFrom.value
-          ? (parseFloat(inputFrom.value) * rate).toFixed(5)
-          : '';
-      } else {
-        inputFrom.value = inputTo.value
-          ? (parseFloat(inputTo.value) * rate).toFixed(5)
-          : '';
-      }
-    })
-    .catch((err)=>{
+  if (navigator.onLine) {
+    fetch(`https://v6.exchangerate-api.com/v6/a03495cb7aef8936ab109a1a/pair/${from}/${to}`)
+      .then(res => res.json())
+      .then(data => {
+        const rate = data.conversion_rate;
+        activeConversionRate = rate
+        calculation(rate)
+      })
+      .catch((err) => {
         Toastify({
-            text: "Something went wrong",
-            className: "info",
-            style: {
-              background: "linear-gradient(to right,rgb(176, 0, 0),rgb(245, 45, 45))",
-            }
-          }).showToast();
-    });
+          text: "Something went wrong",
+          className: "info",
+          style: {
+            background: "linear-gradient(to right,rgb(176, 0, 0),rgb(245, 45, 45))",
+          }
+        }).showToast();
+      });
+  } else {
+    calculation(activeConversionRate)
+  }
 };
 
 const updateFooterRates = () => {
@@ -48,14 +57,14 @@ const updateFooterRates = () => {
         <p>${selectedToCurrency}</p>
       `;
     })
-    .catch((err)=>{
-        Toastify({
-            text: "Something went wrong",
-            className: "info",
-            style: {
-              background: "linear-gradient(to right,rgb(176, 0, 0),rgb(245, 45, 45))",
-            }
-          }).showToast();
+    .catch((err) => {
+      Toastify({
+        text: "Something went wrong",
+        className: "info",
+        style: {
+          background: "linear-gradient(to right,rgb(176, 0, 0),rgb(245, 45, 45))",
+        }
+      }).showToast();
     });
 
   fetch(`https://v6.exchangerate-api.com/v6/a03495cb7aef8936ab109a1a/pair/${selectedToCurrency}/${selectedFromCurrency}`)
@@ -67,14 +76,14 @@ const updateFooterRates = () => {
         <p>${selectedFromCurrency}</p>
       `;
     })
-    .catch((err)=>{
-        Toastify({
-            text: "Something went wrong",
-            className: "info",
-            style: {
-              background: "linear-gradient(to right,rgb(176, 0, 0),rgb(245, 45, 45))",
-            }
-          }).showToast();
+    .catch((err) => {
+      Toastify({
+        text: "Something went wrong",
+        className: "info",
+        style: {
+          background: "linear-gradient(to right,rgb(176, 0, 0),rgb(245, 45, 45))",
+        }
+      }).showToast();
     });
 };
 

@@ -9,6 +9,20 @@ let selectedToCurrency = 'USD';
 let activeField = null;
 let activeConversionRate = 0;
 
+// responsive burger menu
+const burger = document.getElementById('burger-menu');
+const navLinks = document.querySelector('nav ul');
+
+burger.addEventListener('click', () => {
+  navLinks.classList.toggle('show');
+});
+
+navLinks.addEventListener('click', (e) => {
+  if (e.target.tagName === 'A') {
+    navLinks.classList.remove('show');
+  }
+});
+
 const calculation = (rate) => {
   if (activeField === 'from') {
     inputTo.value = inputFrom.value
@@ -21,17 +35,27 @@ const calculation = (rate) => {
   }
 }
 
+const showNoInternetToast = () => {
+  Toastify({
+    text: "No internet connection. ",
+    className: "info",
+    style: {
+      background: "linear-gradient(to right, rgb(176, 0, 0), rgb(245, 45, 45))",
+    }
+  }).showToast();
+};
+
 const fetchAndConvert = () => {
   const from = activeField === 'from' ? selectedFromCurrency : selectedToCurrency;
   const to = activeField === 'from' ? selectedToCurrency : selectedFromCurrency;
 
   if (navigator.onLine) {
-    fetch(`https://v6.exchangerate-api.com/v6/a03495cb7aef8936ab109a1a/pair/${from}/${to}`)
+    fetch(`https://v6.exchangerate-api.com/v6/52793e9d87bb2ffa1773ff7a/pair/${from}/${to}`)
       .then(res => res.json())
       .then(data => {
         const rate = data.conversion_rate;
-        activeConversionRate = rate
-        calculation(rate)
+        activeConversionRate = rate;
+        calculation(rate);
       })
       .catch((err) => {
         Toastify({
@@ -43,48 +67,52 @@ const fetchAndConvert = () => {
         }).showToast();
       });
   } else {
-    calculation(activeConversionRate)
+    showNoInternetToast();
   }
 };
 
 const updateFooterRates = () => {
-  fetch(`https://v6.exchangerate-api.com/v6/a03495cb7aef8936ab109a1a/pair/${selectedFromCurrency}/${selectedToCurrency}`)
-    .then(res => res.json())
-    .then(data => {
-      footerRateFrom.innerHTML = `
-        1 <p>${selectedFromCurrency}</p> = 
-        <span>${data.conversion_rate.toFixed(5)}</span> 
-        <p>${selectedToCurrency}</p>
-      `;
-    })
-    .catch((err) => {
-      Toastify({
-        text: "Something went wrong",
-        className: "info",
-        style: {
-          background: "linear-gradient(to right,rgb(176, 0, 0),rgb(245, 45, 45))",
-        }
-      }).showToast();
-    });
+  if (navigator.onLine) {
+    fetch(`https://v6.exchangerate-api.com/v6/52793e9d87bb2ffa1773ff7a/pair/${selectedFromCurrency}/${selectedToCurrency}`)
+      .then(res => res.json())
+      .then(data => {
+        footerRateFrom.innerHTML = `
+          1 <p>${selectedFromCurrency}</p> = 
+          <span>${data.conversion_rate.toFixed(5)}</span> 
+          <p>${selectedToCurrency}</p>
+        `;
+      })
+      .catch((err) => {
+        Toastify({
+          text: "Something went wrong",
+          className: "info",
+          style: {
+            background: "linear-gradient(to right,rgb(176, 0, 0),rgb(245, 45, 45))",
+          }
+        }).showToast();
+      });
 
-  fetch(`https://v6.exchangerate-api.com/v6/a03495cb7aef8936ab109a1a/pair/${selectedToCurrency}/${selectedFromCurrency}`)
-    .then(res => res.json())
-    .then(data => {
-      footerRateTo.innerHTML = `
-        1 <p>${selectedToCurrency}</p> = 
-        <span>${data.conversion_rate.toFixed(5)}</span> 
-        <p>${selectedFromCurrency}</p>
-      `;
-    })
-    .catch((err) => {
-      Toastify({
-        text: "Something went wrong",
-        className: "info",
-        style: {
-          background: "linear-gradient(to right,rgb(176, 0, 0),rgb(245, 45, 45))",
-        }
-      }).showToast();
-    });
+    fetch(`https://v6.exchangerate-api.com/v6/52793e9d87bb2ffa1773ff7a/pair/${selectedToCurrency}/${selectedFromCurrency}`)
+      .then(res => res.json())
+      .then(data => {
+        footerRateTo.innerHTML = `
+          1 <p>${selectedToCurrency}</p> = 
+          <span>${data.conversion_rate.toFixed(5)}</span> 
+          <p>${selectedFromCurrency}</p>
+        `;
+      })
+      .catch((err) => {
+        Toastify({
+          text: "Something went wrong",
+          className: "info",
+          style: {
+            background: "linear-gradient(to right,rgb(176, 0, 0),rgb(245, 45, 45))",
+          }
+        }).showToast();
+      });
+  } else {
+    showNoInternetToast();
+  }
 };
 
 const validateInput = (input) => {

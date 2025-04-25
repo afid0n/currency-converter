@@ -49,6 +49,19 @@ const fetchAndConvert = () => {
   const from = activeField === 'from' ? selectedFromCurrency : selectedToCurrency;
   const to = activeField === 'from' ? selectedToCurrency : selectedFromCurrency;
 
+
+  if (from===to) {
+    if (activeField==='from') {
+      inputTo.value=inputFrom.value
+    }
+    else{
+      inputFrom.value=inputTo.value
+    }
+
+    return
+    
+  }
+
   if (navigator.onLine) {
     fetch(`https://v6.exchangerate-api.com/v6/52793e9d87bb2ffa1773ff7a/pair/${from}/${to}`)
       .then(res => res.json())
